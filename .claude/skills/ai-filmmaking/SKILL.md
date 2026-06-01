@@ -109,6 +109,48 @@ The structure stays the same; the aesthetic descriptor swaps. Avoid descriptors 
 
 ---
 
+## Template 1b — Key Item / Prop Reference Sheet
+
+**Use for:** Nano Banana Pro, GPT Image 2, Midjourney, Flux, or any high-fidelity image model. Use this whenever a prop, device, weapon, vehicle, or object needs to stay visually consistent across shots — the same rules that prevent character drift apply to objects.
+
+**Output:** an 8-shot grid — top row is four external-angle views (front, side, three-quarter, back or top), bottom row is four detail close-ups (key feature, material/texture, functional part, scale reference).
+
+The same two critical rules from Template 1 apply here:
+1. **Neutral lighting only.** No scene-specific light baked in — the sheet must serve any shot in any location.
+2. **No scene contamination.** Don't show the item mid-use, damaged, or in a specific environment. The sheet is its neutral resting state. Damage, activation states, or scene context belong in the shot prompts.
+
+### Mode A — Reference image attached
+
+```
+Create a professional prop reference sheet for the attached item {use attached image(s) as strong reference, 1:1 similarity, [STYLE DESCRIPTORS]}. Divide the sheet into four different vertical columns showing four different angles, for a total of eight shots. The top row must show full exterior views from four directions: front, side, three-quarter, and back (or top-down if more informative). The bottom row must show four close-up detail shots: key distinguishing feature, primary material/texture, functional element or mechanism, and scale reference (item held in a neutral hand or against a neutral surface). Neutral studio lighting — no scene-specific light. Background should be simple and not distracting from the object design. Style: [STYLE BLOCK]. Aspect ratio = 16:9.
+```
+
+### Mode B — Description only
+
+Keep the description tight: **form, material, scale, color, and the one or two features that make it recognizable**. Skip operational context ("glowing when activated", "covered in mud from the chase"). Functional states and wear belong in shot prompts.
+
+> Good (~40 words): `a palm-sized rectangular device, matte black anodized aluminum body, rounded corners, single amber LED strip along the top edge, small recessed port on the short end, flat back with a single engraved serial mark`
+>
+> Bloated (scene contamination): `a palm-sized device Mira clutches tightly as she runs, its amber LED pulsing rapidly as if counting down, scratched and slightly dented from the earlier fall in the server room`
+
+```
+Create a professional prop reference sheet for [ITEM DESCRIPTION — tight comma-separated traits: form/shape, material, scale, primary color, key distinguishing features. No operational state, no scene context, no damage]. Divide the sheet into four different vertical columns showing four different angles, for a total of eight shots. The top row must show full exterior views from four directions: front, side, three-quarter, and back (or top-down if more informative). The bottom row must show four close-up detail shots: key distinguishing feature, primary material/texture, functional element or mechanism, and scale reference (item held in a neutral hand or against a neutral surface). Neutral studio lighting — no scene-specific light. Background should be simple and not distracting from the object design. Style: [STYLE BLOCK]. Aspect ratio = 16:9.
+```
+
+### When to use top-down instead of back view
+
+For objects where the back is visually uninformative (a flat panel, a featureless underside), swap the fourth angle to **top-down** — it often reveals form better than the back does. Good candidates: handheld devices, weapons, vehicles, containers. Keep back view for objects with meaningful rear detail (screen backs, exhaust ports, pack frames).
+
+### Scale reference — the most-skipped detail
+
+Always include a scale reference shot in the bottom row. Without one, the model has no anchor for how large the item is, and downstream shots will render it at inconsistent sizes. A neutral hand grip or flat-surface placement is enough — no scene atmosphere, no specific person.
+
+### Functional-state variants (optional)
+
+If a prop has two visually distinct states (off/on, closed/open, intact/deployed), generate **two separate sheets** — one per state — rather than cramming both into one grid. Then reference the correct sheet per shot. Example: Cold Drive (sealed) → @image1, Cold Drive (port open, data transferring) → @image2.
+
+---
+
 ## Template 2 — Cinematic Storyboard Grid
 
 **Use for:** Nano Banana Pro, GPT Image 2, Midjourney, Flux, or any high-fidelity image model.
@@ -319,6 +361,9 @@ The user will likely paste each one into a separate generation, so they need to 
 ## Common pitfalls
 
 - **Shipping `[BRACKETED]` placeholders.** If `[CHARACTER DESCRIPTION]` makes it into the final output, the skill has failed. Fill every field.
+- **Using Template 1 for a prop.** Character sheets use face close-ups and human body angles — wrong for objects. Use Template 1b, which uses object angles and detail shots instead.
+- **Skipping the scale reference shot in Template 1b.** Without it the model has no size anchor and prop scale will drift across shots.
+- **Showing the prop in an operational or damaged state on the reference sheet.** The sheet is the neutral resting state. Activation, damage, and scene context belong in the shot prompts.
 - **Bloating character descriptions in the Storyboard template.** One tight sentence per character, not three. Identity lives in the Character Sheet (image or short description); the Storyboard just needs a brief reminder.
 - **Bloating the Character Sheet description when a reference image is attached.** The image *is* the description — don't re-narrate it. Mode A is short by design.
 - **Baking scene effects into the Character Sheet.** Blood streaks, dirt smudges, damp hair, sparks streaming from the prop, scene-specific rim-light cast onto the character — all of these contaminate the identity reference. Lighting should be neutral; transient details belong in the shot prompts.
